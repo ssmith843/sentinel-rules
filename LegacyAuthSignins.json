@@ -1,0 +1,17 @@
+{
+  "name": "Legacy Authentication Sign-ins",
+  "query": "SigninLogs | where ResultType == 0 and ClientAppUsed in ('IMAP4', 'POP3', 'SMTP', 'MAPI', 'Autodiscover', 'Exchange ActiveSync')",
+  "tactics": ["CredentialAccess"],
+  "techniques": ["T1078"],
+  "severity": "Medium",
+  "kind": "Scheduled",
+  "queryFrequency": "PT1H",
+  "queryPeriod": "PT1H",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 0,
+  "enabled": true,
+  "description": "Detects successful sign-ins using legacy authentication protocols that bypass modern authentication.",
+  "entityMappings": [
+    { "entityType": "Account", "fieldMappings": [{ "identifier": "Name", "columnName": "UserPrincipalName" }] }
+  ]
+}
