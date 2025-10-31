@@ -1,0 +1,17 @@
+{
+  "name": "Sign-in from New Country",
+  "query": "SigninLogs | where ResultType == 0 | extend Country = tostring(LocationDetails.countryOrRegion) | summarize Countries = make_set(Country, 50) by UserPrincipalName | where array_length(Countries) > 3",
+  "tactics": ["InitialAccess"],
+  "techniques": ["T1078"],
+  "severity": "Medium",
+  "kind": "Scheduled",
+  "queryFrequency": "PT24H",
+  "queryPeriod": "P7D",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 0,
+  "enabled": true,
+  "description": "Detects when a user signs in from a new country not seen in the last 7 days.",
+  "entityMappings": [
+    { "entityType": "Account", "fieldMappings": [{ "identifier": "Name", "columnName": "UserPrincipalName" }] }
+  ]
+}

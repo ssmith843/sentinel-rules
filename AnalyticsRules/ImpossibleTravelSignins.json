@@ -1,0 +1,18 @@
+{
+  "name": "Impossible Travel Sign-ins",
+  "query": "SigninLogs | where ResultType == 0 | summarize FirstLocation = make_set(LocationDetails, 2) by UserPrincipalName, bin(TimeGenerated, 1h) | where array_length(FirstLocation) > 1",
+  "tactics": ["DefenseEvasion"],
+  "techniques": ["T1078"],
+  "severity": "High",
+  "kind": "Scheduled",
+  "queryFrequency": "PT1H",
+  "queryPeriod": "PT1H",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 0,
+  "enabled": true,
+  "description": "Detects a user logging in from two geographically distant locations within one hour.",
+  "entityMappings": [
+    { "entityType": "Account", "fieldMappings": [{ "identifier": "Name", "columnName": "UserPrincipalName" }] }
+  ]
+}
+
