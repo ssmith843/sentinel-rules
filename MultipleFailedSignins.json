@@ -1,0 +1,19 @@
+{
+  "name": "Multiple Failed Sign-ins by User",
+  "query": "SigninLogs | where ResultType != 0 | summarize FailedCount = count() by UserPrincipalName, bin(TimeGenerated, 5m) | where FailedCount > 10",
+  "tactics": ["CredentialAccess"],
+  "techniques": ["T1110"],
+  "severity": "Medium",
+  "kind": "Scheduled",
+  "queryFrequency": "PT5M",
+  "queryPeriod": "PT5M",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 0,
+  "suppressionDuration": "PT1H",
+  "suppressionEnabled": false,
+  "enabled": true,
+  "description": "Detects when a user has more than 10 failed sign-ins within 5 minutes.",
+  "entityMappings": [
+    { "entityType": "Account", "fieldMappings": [{ "identifier": "Name", "columnName": "UserPrincipalName" }] }
+  ]
+}
