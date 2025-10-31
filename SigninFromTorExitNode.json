@@ -1,0 +1,17 @@
+{
+  "name": "Sign-in from Tor Exit Node",
+  "query": "SigninLogs | where ResultType == 0 | where IPAddress in (externaldata(ip: string) [@\"https://check.torproject.org/exit-addresses\"] with (format='txt'))",
+  "tactics": ["DefenseEvasion", "CredentialAccess"],
+  "techniques": ["T1078"],
+  "severity": "High",
+  "kind": "Scheduled",
+  "queryFrequency": "PT1H",
+  "queryPeriod": "PT1H",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 0,
+  "enabled": true,
+  "description": "Detects successful sign-ins from IP addresses known to be Tor exit nodes.",
+  "entityMappings": [
+    { "entityType": "Account", "fieldMappings": [{ "identifier": "Name", "columnName": "UserPrincipalName" }] }
+  ]
+}
